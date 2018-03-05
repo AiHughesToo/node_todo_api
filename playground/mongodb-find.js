@@ -15,28 +15,25 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db) => {
 	// end
 
 	// db.collection('Todos').find({completed: false}).toArray().then ((docs) => {
-	  db.collection('Todos').find({
-			_id: new ObjectID('5a9d8b46bc0aa1149a71ab6a')
-		}).toArray().then((docs) => {
-		console.log('Todos');
-		console.log(JSON.stringify(docs, undefined, 2));
-	}, (err) => {
-		console.log('Undable to fetch todos', err);
-	});
-
-
-	// db.collection('Todos').insertOne({
-	// 	  text: 'Something to do',
-	// 	  completed: false
-	//   }, (err, result) =>{
-	//     if (err) {
-	// 	  return console.log('Unable to insert record', err);
-	//     }
-	// 	  console.log(JSON.stringify(result.ops, undefined, 2));
+	//   db.collection('Todos').find({
+	// 		_id: new ObjectID('5a9d8b46bc0aa1149a71ab6a')
+	// 	}).toArray().then((docs) => {
+	// 	console.log('Todos');
+	// 	console.log(JSON.stringify(docs, undefined, 2));
+	// }, (err) => {
+	// 	console.log('Undable to fetch todos', err);
 	// });
 
-
-
+// rails version
+// def index
+// @todos = Todo.find
+// p @todos.size
+// end
+	db.collection('Todos').find().toArray().then((count) => {
+	console.log(`Todos count: ${count}` );
+}, (err) => {
+	console.log('Undable to fetch todos', err);
+});
 	// db.close();
 
 });
