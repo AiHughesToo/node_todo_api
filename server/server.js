@@ -10,12 +10,14 @@ var {User} = require('./models/user');
 // Set up the app
 var app = express();
 
-//middleware
+//middleware. this somehow tells the app to parse the body of the request
+//into json for use later in the app.
 app.use(bodyParser.json());
 
 // this works like a combo of routes file and the controller in Rails
+// I would expect this to be refactored into routes and a controller file.
 app.post('/todos', (req, res) => {
-  // make a new isntance of a todo
+  // make a new isntance of a todo this is a create method
   var todo = new Todo ({
     text: req.body.text
   });
@@ -31,3 +33,5 @@ app.post('/todos', (req, res) => {
 app.listen(3000, () => {
   console.log('Started on port 3000');
 });
+
+module.exports = {app};
