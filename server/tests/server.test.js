@@ -1,10 +1,11 @@
 const expect = require('expect');
 const request = require('supertest');
+const {ObjectID} = require('mongodb');
 
 const {app} = require('./../server');
 const {Todo} = require('./../models/todo');
 //seed file
-const todos = [{text: 'First test todo'},{text: 'second test todo'}];
+const todos = [{_id: new ObjectID(),text: 'First test todo'},{_id: new ObjectID(),text: 'second test todo'}];
 
 beforeEach((done) => {
   Todo.remove({}).then(() => {
@@ -52,5 +53,29 @@ describe('GET /todos', () => {
     .expect((res) => {
       expect(res.body.todos.length).toBe(2);
     }).end(done);
+  });
+});
+
+describe('GET /todos/:id', () => {
+  it('should return todo doc', (done) => {
+    request(app).get(`/todos/${todos[0]._id.toHexString()}`)
+    .expect(200)
+    .expect((res) => {
+      expect(res.body.todo.text).toBe(todos[0].text);
+    }).end(done);
+  });
+  // testing not found
+  it('should return a 404', (done) => {
+    var badId = new ObjectID();
+    request(app).get(`/todos/${badId.toHexString()}`)
+    .expect(404)
+    .end(done);
+  });
+  // test for invalad id.
+  it('should return a 404', (done) => {
+    var badId2 = new ObjectID().toHexString() + 'abc';
+    request(app).get(`/todos/${badId2}`)
+    .expect(404)
+    .end(done);
   });
 });
