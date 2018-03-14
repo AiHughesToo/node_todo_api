@@ -10,6 +10,8 @@ var {User} = require('./models/user');
 
 // Set up the app
 var app = express();
+// heroku port variable
+const port = process.env.PORT || 3000;
 
 //middleware. this somehow tells the app to parse the body of the request
 //into json for use later in the app.
@@ -55,8 +57,8 @@ app.get('/todos/:id', (req,res) => {
 });
 
 //starting the server
-app.listen(3000, () => {
-  console.log('Started on port 3000');
+app.listen(port, () => {
+  console.log(`Started on port ${port}`);
 });
 
 module.exports = {app};
